@@ -3,6 +3,7 @@ import { Wrap, WrapItem } from '@chakra-ui/react'
 import { useEffect, useState } from "react";
 import { getNFTMarket } from '../../../server/index'
 import CollectionCard from "./CollectionCard";
+import PreloaderComponent from "../../Proloader";
 // import { getChainIds } from "../../server/utils";
 
 interface CollectionPanelProps {
@@ -11,6 +12,7 @@ interface CollectionPanelProps {
 
 
 const CollectionPanel: React.FC<CollectionPanelProps> = ({ chainId }) => {
+    const [loading, setLoading] = useState<boolean>(true)
     const [data, setData] = useState([]);
     
     const fetchData = useCallback(async () => {
@@ -23,13 +25,12 @@ const CollectionPanel: React.FC<CollectionPanelProps> = ({ chainId }) => {
                     newData.push(data)     
                 })
                 setData(newData)
-                return newData
+                setLoading(false)
             })
             .catch((err) => {
                 // SEND ERROR MESSAGE
                 console.log(err);
-                setData([])
-                return [];
+                setLoading(false)
             })
     }, [chainId])
 
@@ -42,16 +43,22 @@ const CollectionPanel: React.FC<CollectionPanelProps> = ({ chainId }) => {
 
     return (
         <Wrap>
-            {data.map((tab, index) => (
-                <WrapItem key={index} p={'2rem'}>
-                    <CollectionCard
-                        collectionName={tab.collection_name}
-                        collectionAddress={tab.collection_address}
-                        chainId={tab.chain_id}
-                        firstNftImage={tab.first_nft_image_512}
-                    />
-                </ WrapItem>
-            ))}
+            {loading ? (
+                <PreloaderComponent />
+            ) : (
+                <>
+                    {data.map((tab, index) => (
+                        <WrapItem key={index} p={'2rem'}>
+                            <CollectionCard
+                                collectionName={tab.collection_name}
+                                collectionAddress={tab.collection_address}
+                                chainId={tab.chain_id}
+                                firstNftImage={tab.first_nft_image_512}
+                            />
+                        </ WrapItem>
+                    ))}
+                </>
+            )}
         </ Wrap>
     )
 };
