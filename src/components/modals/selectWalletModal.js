@@ -11,20 +11,54 @@ import {
   Text
 } from "@chakra-ui/react";
 import { Image } from "@chakra-ui/react";
-import { useWeb3React } from "@web3-react/core";
-import { connectors } from "../../connectors";
+// import { useWeb3React } from "@web3-react/core";
+import { useMoralis } from "react-moralis";
+// import { connectors } from "../../connectors";
 
 import mmIcon from '../../assets/mm.png';
 import wcIcon from '../../assets/wc.png';
-import cbIcon from '../../assets/cbw.png';
 
 
 export default function SelectWalletModal({ isOpen, closeModal }) {
-  const { activate } = useWeb3React();
+  // const { activate } = useWeb3React();
+  const {
+    authenticate  
+  } = useMoralis();
 
   const setProvider = (type) => {
     window.localStorage.setItem("provider", type);
   };
+
+  const authWalletConnect = async () => {
+    setProvider("walletconnect")
+    const user = authenticate({
+        provider: window.localStorage.getItem("provider"),
+        chainId: 1,
+        mobileLinks: [
+            "metamask",
+            "trust",
+            "coinbase",
+            "rainbow",
+            "argent",
+            "imtoken",
+            "pillar",
+        ],
+        signingMessage: "Connect To MintWave",
+    });
+    console.log(user);
+  }
+
+
+  const authMetamask = async () => {
+    setProvider("metamask")
+    const user = authenticate({
+        provider: window.localStorage.getItem("provider"),
+        chainId: 1,
+        signingMessage: "Connect To MinWave",
+    });
+    console.log(user);
+  }
+
 
   return (
     <Modal isOpen={isOpen} onClose={closeModal} isCentered>
@@ -40,31 +74,7 @@ export default function SelectWalletModal({ isOpen, closeModal }) {
           <VStack>
             <Button
               variant="outline"
-              onClick={() => {
-                activate(connectors.coinbaseWallet);
-                setProvider("coinbaseWallet");
-                closeModal();
-              }}
-              w="100%"
-            >
-              <HStack w="100%" justifyContent="center">
-                <Image
-                  src={cbIcon}
-                  alt="Coinbase Wallet Logo"
-                  width={25}
-                  height={25}
-                  borderRadius="3px"
-                />
-                <Text>Coinbase Wallet</Text>
-              </HStack>
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => {
-                activate(connectors.walletConnect);
-                setProvider("walletConnect");
-                closeModal();
-              }}
+              onClick={async () => await authWalletConnect()}
               w="100%"
             >
               <HStack w="100%" justifyContent="center">
@@ -80,11 +90,7 @@ export default function SelectWalletModal({ isOpen, closeModal }) {
             </Button>
             <Button
               variant="outline"
-              onClick={() => {
-                activate(connectors.injected);
-                setProvider("injected");
-                closeModal();
-              }}
+              onClick={async () => await authMetamask()}
               w="100%"
             >
               <HStack w="100%" justifyContent="center">

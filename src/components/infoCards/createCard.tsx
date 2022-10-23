@@ -1,5 +1,5 @@
 import React from "react";
-import { Stack, Box, Button, Text, Image, Heading, Spacer } from "@chakra-ui/react";
+import { Stack, Box, Button, Text, Image, Heading, Spacer, useMediaQuery } from "@chakra-ui/react";
 import { ArrowForwardIcon } from '@chakra-ui/icons';
 
 import WalletIcon from '../../assets/wallet-icon.png'
@@ -8,10 +8,11 @@ import ImageIcon from '../../assets/image-icon.png'
 import SaleIcon from '../../assets/sell-icon.png'
 
 const CreateNFTSection = () => {
+    const [isSmallerScreen] = useMediaQuery('(max-width: 900px)')
     return (
-        <Stack px={20} py={10} justify={'center'}>
-            <Box textAlign={'center'} h={'auto'} w={"90vw"} bg={'white'} borderRadius={'15px'} p={'2em'} py={'5em'}>
-                <Stack direction={'row'} textAlign={'left'}>
+        <Stack px={'5em'} py={10} justify={'center'}>
+            <Box textAlign={'center'} h={'auto'} w={"auto"} bg={'white'} borderRadius={'15px'} p={'2em'} py={'5em'}>
+                <Stack direction={isSmallerScreen ? 'column' : 'row'} textAlign={'left'}>
 
                     <Box width={'40vw'}>
                         <Stack direction={'column'}>
@@ -33,24 +34,24 @@ const CreateNFTSection = () => {
                             <Stack direction={'row'} spacing={5} p={2}>
                                 <Box justifyContent={'left'} w={'20vw'} p={'1em'}>
                                     <Image src={WalletIcon} alt="wallet icon" />
-                                    <Heading py={2} size={'md'} color={'#575FCC'}>Set up your wallet</Heading>
+                                    <Heading py={2} fontSize={['sm', 'md']} color={'#575FCC'}>Set up your wallet</Heading>
                                     <p>Once you’ve set up your wallet of choice connect it to <a href="https://gr-13-nft-project-4quqcrf76-glibx.vercel.app/" color='#575FCC'> MintWave.</a></p>
                                 </Box>
                                 <Box justifyContent={'left'} w={'20vw'} p={'1em'}>
                                     <Image src={CollectionIcon} alt="wallet icon" />
-                                    <Heading py={2} size={'md'} color={'#575FCC'}>Create your collection</Heading>
+                                    <Heading py={2} fontSize={['sm', 'md']} color={'#575FCC'}>Create your collection</Heading>
                                     <p>Click <a href="https://gr-13-nft-project-4quqcrf76-glibx.vercel.app/" color='#575FCC'>Create</a> and set up your collection and customize your profile</p>
                                 </Box>
                             </Stack>
                             <Stack direction={'row'} spacing={5} p={2}>
                                 <Box justifyContent={'left'} w={'20vw'} p={'1em'}>
                                     <Image src={ImageIcon} alt="wallet icon" />
-                                    <Heading py={2} size={'md'} color={'#575FCC'}>Add your NFTs</Heading>
+                                    <Heading py={2} fontSize={['sm', 'md']} color={'#575FCC'}>Add your NFTs</Heading>
                                     <p>Upload  your work (image, video, or 3D art) and other options.</p>
                                 </Box>
                                 <Box justifyContent={'left'} w={'20vw'} p={'1em'}>
                                     <Image src={SaleIcon} alt="wallet icon" />
-                                    <Heading py={2} size={'md'} color={'#575FCC'}>List item for sale</Heading>
+                                    <Heading py={2} fontSize={['sm', 'md']} color={'#575FCC'}>List item for sale</Heading>
                                     <p>Choose between auctions, fixed-price listings, and declining-price listings. You choose how you want to sell your NFTs, and we help you sell them!</p>
                                 </Box>
                             </Stack>

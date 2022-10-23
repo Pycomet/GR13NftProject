@@ -18,3 +18,12 @@ export function getChainIds () {
 export const truncateText = str =>  {
     return str.slice(0, 4) + "..." + str.slice(37)
 }
+
+
+
+// Pulls the wallet current balance withb web3
+export const getWalletBalance = address => {
+
+    // use web3 library
+    return address
+}
